@@ -17,6 +17,8 @@ This project is currently using Angular version 15.2.1.
     $ @ngrx/entity // Entity State adapter for managing record collections.
     $ @angular/material // Material Design components for Angular
     $ rxjs // RxJS is a library for reactive programming using Observables
+    $ jest // Unit Tests
+    $ Spectator // Spectator helps you get rid of all the boilerplate grunt work, leaving you with readable, sleek and streamlined unit tests.
     
 ## Installation
 
