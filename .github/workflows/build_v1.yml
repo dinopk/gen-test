@@ -1,0 +1,26 @@
+name: Install, Build and Test
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [14]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Run Tests
+        run: npm run test:coverage:silent
