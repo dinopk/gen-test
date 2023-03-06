@@ -1,4 +1,6 @@
 # Gen-Test
+![Build](https://github.com/myvictorlife/gen-test/actions/workflows/build_v1.yml/badge.svg)
+[![codecov](https://codecov.io/gh/myvictorlife/gen-test/branch/main/graph/badge.svg)](https://codecov.io/gh/myvictorlife/sidequest-xp)
 
 This project is currently using Angular version 15.2.1.
 
