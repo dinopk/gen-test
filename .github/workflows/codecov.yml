@@ -1,4 +1,4 @@
- name: Running Test Coverage
+name: Running Test Coverage
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14.x]
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,7 @@ jobs:
       - name: Run the tests
         run: npm test -- --coverage
 
-      - name: Upload coverage reports to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
