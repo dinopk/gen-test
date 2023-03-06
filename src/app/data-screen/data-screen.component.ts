@@ -1,5 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { PostsData } from '../core/models/post.model';
+import { updatePost } from '@gen-store/posts/actions/posts.actions';
+import { selectCurrentPost } from '../core/store/posts/selectors/posts.selectors';
 
 @Component({
   selector: 'app-data-screen',
@@ -8,45 +14,40 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DataScreenComponent implements OnInit {
 
-  // Recieving data from EditDialog component
-  itemDataId = this.route.snapshot.paramMap.get('itemDataId');
-  itemDataUserId = this.route.snapshot.paramMap.get('itemDataUserId');
-  itemDataTitle = this.route.snapshot.paramMap.get('itemDataTitle');
-  itemDataBody = this.route.snapshot.paramMap.get('itemDataBody');
+  itemData$ = this.store.select(selectCurrentPost).pipe(take(1));
 
-  // Organizing recieved data into itemData object
-  itemData = {
-    id: this.itemDataId,
-    userId: this.itemDataUserId,
-    title: this.itemDataTitle,
-    body: this.itemDataBody
-  }
-
-  // Getting template elements to be able to manipulate data
-  @ViewChild('titleData') titleData:ElementRef<HTMLInputElement> | undefined;
-  @ViewChild('bodyData') bodyData:ElementRef<HTMLInputElement> | undefined;
+  itemDataForm: FormGroup;
   
-  constructor(private route: ActivatedRoute, private router: Router) {
-    
+  constructor(private router: Router, private store: Store) {
+    this.initForm();
    }
+
+  initForm() {
+    this.itemData$.pipe(take(1)).subscribe((post) => {
+      this.itemDataForm = new FormGroup({
+        id: new FormControl(post?.id),
+        title: new FormControl(post?.title),
+        body: new FormControl(post?.body),
+        userId: new FormControl(post?.userId)
+      });
+    });
+  }
 
   ngOnInit(): void {  }
 
   // Method used to revert changes made on clicked item data
   revertChanges(){
-    this.titleData?.nativeElement.setAttribute('value', String(this.itemData.title));
-    this.bodyData?.nativeElement.setAttribute('value', String(this.itemData.body));
+    this.initForm();
   }
 
   //  Alters (only locally) data recieved from given URL (that is coming through DisplayDataComponent)
   applyChanges(){
-    this.itemData.title = String(this.titleData?.nativeElement.value);
-    this.itemData.body = String(this.bodyData?.nativeElement.value);
-    this.router.navigate(['/display-data', {
-      newTitle: this.itemData.title, 
-      newBody: this.itemData.body,
-      id: this.itemData.id  
-    }])
+    this.updatePost(this.itemDataForm.getRawValue());
+    this.router.navigate(['/display-data']);
+  }
+
+  private updatePost(post: PostsData) {
+    this.store.dispatch(updatePost({ post }));
   }
 
 }

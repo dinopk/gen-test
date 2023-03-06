@@ -3,12 +3,8 @@ mat-card{
     height: fit-content;
 }
 
-.cardMargin{
-    margin-bottom: 5em;
-}
-
-.listMargins{
-    margin-top: 1em;
+mat-list-item {
+    height: 100% !important;
 }
 
 .btnAlign{

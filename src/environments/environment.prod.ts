@@ -1,3 +1,9 @@
 export const environment = {
-  production: true
+  production: true,
+  urls: {
+    jsonDataUrl: 'http://jsonplaceholder.typicode.com',
+    endpoints: {
+      postsUrl: '/posts'
+    }
+  }
 };

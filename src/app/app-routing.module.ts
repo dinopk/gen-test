@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DisplayDataComponent } from './display-data/display-data.component';
-import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
+import { EditDialogComponent } from './core/dialogs/edit-dialog/edit-dialog.component';
 import { DataScreenComponent } from './data-screen/data-screen.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ThanksPageComponent } from './thanks-page/thanks-page.component';

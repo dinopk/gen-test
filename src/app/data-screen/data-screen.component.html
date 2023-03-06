@@ -1,23 +1,24 @@
-<form>
+
+<form [formGroup]="itemDataForm" (ngSubmit)="applyChanges()" *ngIf="itemDataForm">
     <mat-form-field>
         <mat-label>Id: </mat-label>
-        <input type="text" matInput readonly value="{{itemData.id}}">
+        <input type="text" formControlName="id" matInput readonly>
     </mat-form-field>
     <mat-divider></mat-divider>
     <mat-form-field class="editableData">
         <mat-label>Title: </mat-label>
-        <input type="text" matInput value="{{itemData.title}}" #titleData>
+        <input type="text" formControlName="title" matInput>
     </mat-form-field>
     <mat-divider></mat-divider>
     <mat-form-field class="editableData">
         <mat-label>Body: </mat-label>
-        <input type="text" matInput value="{{itemData.body}}" #bodyData>
+        <input type="text" formControlName="body" matInput>
     </mat-form-field>
 
-    <button type="submit" (click)="applyChanges()" mat-raised-button>
+    <button type="submit" mat-raised-button>
         Apply changes
     </button>
-    <button mat-raised-button (click)="revertChanges()">
+    <button type="button" mat-raised-button (click)="revertChanges()">
         Clear changes
     </button>
 </form>
