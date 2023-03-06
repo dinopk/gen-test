@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { GetDataService } from 'services/get-data.service';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { Store } from '@ngrx/store';
+import { EditDialogComponent } from '../core/dialogs/edit-dialog/edit-dialog.component';
+
+import * as fromLogin from '@gen-store/posts/actions/posts.actions';
+import { selectAllPosts } from '@gen-store/posts/selectors/posts.selectors';
 
 @Component({
   selector: 'app-display-data',
@@ -11,17 +13,11 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 })
 export class DisplayDataComponent implements OnInit {
 
+  posts$ = this.store.select(selectAllPosts);
+
   constructor(
-    public dataService: GetDataService,
-    private dialog: MatDialog,
-    private route: ActivatedRoute) { }
-
-  postsDataFromUrl: any;
-
-  // Variables to store data from user input
-  newTitle = String(this.route.snapshot.paramMap.get('newTitle'));
-  newBody = String(this.route.snapshot.paramMap.get('newBody'));
-  confirmId = String(this.route.snapshot.paramMap.get('id'));
+    private store: Store,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.showPostsData();
@@ -32,19 +28,10 @@ export class DisplayDataComponent implements OnInit {
     // Data flow: GetData Service -> DisplayData Component -> EditDialog Component -> DataScreen Component.
     // This data object send the clicked card data to the next component via MatDialog object 
     this.dialog.open(EditDialogComponent, {data: {userId: itemData.userId, id: itemData.id, title: itemData.title, body: itemData.body}});
-    
   }
 
   showPostsData(){
-    this.dataService.getPostsData().subscribe(postsData => {
-      this.postsDataFromUrl = postsData;
-      this.postsDataFromUrl.forEach((post: any) => {
-        if(this.confirmId == post.id){
-          post.title = this.newTitle;
-          post.body = this.newBody;
-        }
-      });
-    });
-    }
+    this.store.dispatch(fromLogin.fetchPosts());
+  }
 
 }

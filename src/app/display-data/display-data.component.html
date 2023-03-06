@@ -1,20 +1,21 @@
 <!-- Iterating through data recieved from given URL in get-data service -->
-<mat-list dense *ngFor="let item of postsDataFromUrl" class="listMargins">
+<mat-list dense *ngFor="let item of posts$ | async" class="listMargins">
     <mat-list-item class="cardMargin">
         <mat-card>
-            <mat-card-title>
-                
-                    Title:
-                
-            </mat-card-title>
+            <mat-card-header>
+                <mat-card-title>Title: {{item.title}}</mat-card-title>
+            </mat-card-header>
             <mat-card-content>
                 <div class="cardContentAlign">
-                    {{item.title}}
-                    <button mat-raised-button (click)="openEditDialog(item)" class="btnAlign">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                    {{item.body}}
+                    
                 </div>
             </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="openEditDialog(item)" class="btnAlign">
+                    <mat-icon>edit</mat-icon>
+                </button>
+              </mat-card-actions>
         </mat-card>
     </mat-list-item>
 </mat-list>

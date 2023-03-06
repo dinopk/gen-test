@@ -1,25 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MaterialModule } from '../material-module';
 
 import { DisplayDataComponent } from './display-data.component';
 
 describe('DisplayDataComponent', () => {
-  let component: DisplayDataComponent;
-  let fixture: ComponentFixture<DisplayDataComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DisplayDataComponent ]
-    })
-    .compileComponents();
+  let spectator: Spectator<DisplayDataComponent>;
+
+  let initialState: any;
+
+  const createComponent = createComponentFactory({
+    component: DisplayDataComponent,
+    imports: [
+      BrowserAnimationsModule,
+      NoopAnimationsModule,
+      MaterialModule
+    ],
+    providers: [
+      provideMockStore({
+        initialState,
+      })
+    ],
+    declarations: [DisplayDataComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DisplayDataComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
   });
 });
